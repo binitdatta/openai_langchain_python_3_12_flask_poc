@@ -1,3 +1,8 @@
+# What We are doing
+
+![Alt Text](./images/1.png)
+
+
 To create a new API key in your OpenAI account, follow these steps:
 
 ---

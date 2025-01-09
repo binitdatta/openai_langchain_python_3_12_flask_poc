@@ -59,6 +59,7 @@ def chat():
 
     # Generate chatbot response
     langchain_prompt = prompt.format(order_id=order_id, order_json=order_json_str)
+    print("Langchain Prompt :"+langchain_prompt)
     chatbot_response = llm(langchain_prompt)
 
     return jsonify({"response": chatbot_response})

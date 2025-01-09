@@ -13,7 +13,8 @@ class ChatModelStartHandler(BaseCallbackHandler):
 
     def on_llm_start(self, serialized, prompts, **kwargs):
         print("LLM is starting...")
-        print(prompts)
+        #print(prompts)
+        print(f"Prefix: {prompts}")
 
     def on_chat_model_start(self, serialized, messages, **kwargs):
         print("\n\n\n\n========= Sending Messages =========\n\n")
