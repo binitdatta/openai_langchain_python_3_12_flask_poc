@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Status ChatBot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .response {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            color: #333;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Order Status ChatBot</h1>
+        <label for="user-input">Ask a question about your order:</label>
+        <input type="text" id="user-input" placeholder="e.g., What is the status of order 12345?" />
+        <button onclick="sendMessage()">Send</button>
+        <div class="response">
+            <label for="response-textarea">ChatBot Response:</label>
+            <textarea id="response-textarea" readonly></textarea>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            const responseTextarea = document.getElementById("response-textarea");
+
+            // Reset the response area
+            responseTextarea.value = "";
+
+            if (!userInput.trim()) {
+                alert("Please enter a question.");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://127.0.0.1:5005/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ message: userInput }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    if (typeof data.response === "object") {
+                        // Format JSON object for display
+                        responseTextarea.value = JSON.stringify(data.response, null, 4);
+                    } else {
+                        // Display plain text response
+                        responseTextarea.value = data.response || "No response received.";
+                    }
+                } else {
+                    responseTextarea.value = "Error: Unable to get a response from the chatbot.";
+                }
+            } catch (error) {
+                responseTextarea.value = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

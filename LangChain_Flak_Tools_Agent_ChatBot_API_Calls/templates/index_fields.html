@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Status ChatBot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            color: #333;
+            /* pointer-events: none;  Makes the input uneditable */
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .response {
+            margin-top: 20px;
+        }
+        .response label {
+            font-weight: bold;
+        }
+        .response input {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Order Status ChatBot</h1>
+        <label for="user-input">Ask a question about your order:</label>
+        <input type="text" id="user-input" placeholder="e.g., What is the status of order 12345?" />
+        <button onclick="sendMessage()">Send</button>
+        <div id="chat-response" class="response"></div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            const responseDiv = document.getElementById("chat-response");
+
+            // Reset the response area
+            responseDiv.innerHTML = "";
+
+            if (!userInput.trim()) {
+                alert("Please enter a question.");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://127.0.0.1:5005/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ message: userInput }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data)
+                    // Example JSON Response
+                    // {
+                    //   "customer_id": "CUST001",
+                    //   "order_date": "Wed, 25 Dec 2024 10:30:00 GMT",
+                    //   "order_id": 1,
+                    //   "order_no": "ORD1001",
+                    //   "order_status": "Shipped",
+                    //   "product_id": "PROD001",
+                    //   "qty_ordered": 2,
+                    //   "unit_price": 50.0
+                    // }
+
+                    const attributes = {
+                        "Customer ID": data.response.customer_id,
+                        "Order Date": data.response.order_date,
+                        "Order ID": data.response.order_id,
+                        "Order Number": data.response.order_no,
+                        "Order Status": data.response.order_status,
+                        "Product ID": data.response.product_id,
+                        "Quantity Ordered": data.response.qty_ordered,
+                        "Unit Price": data.response.unit_price
+                    };
+
+                    // Create labeled input fields for each attribute
+                    Object.keys(attributes).forEach(key => {
+                        const label = document.createElement("label");
+                        label.textContent = key; // Display the key as a label
+                        const input = document.createElement("input");
+                        input.type = "text";
+                        input.value = attributes[key];
+                        input.readOnly = true;
+
+                        responseDiv.appendChild(label);
+                        responseDiv.appendChild(input);
+                    });
+                } else {
+                    responseDiv.innerHTML = "Error: Unable to get a response from the chatbot.";
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
