@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h1 class="h4">ChatBot</h1>
+                    </div>
+                    <div class="card-body">
+                        <form id="chat-form">
+                            <div class="mb-3">
+                                <label for="question" class="form-label">Ask a question:</label>
+                                <textarea
+                                    id="question"
+                                    name="question"
+                                    rows="3"
+                                    class="form-control"
+                                    placeholder="Type your question here..."
+                                    required>
+                                </textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Ask</button>
+                        </form>
+                        <div id="response" class="mt-4 p-3 bg-light border rounded" style="min-height: 50px;">
+                            <!-- Response will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById("chat-form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const question = document.getElementById("question").value;
+            const responseDiv = document.getElementById("response");
+
+            responseDiv.innerHTML = "<div class='text-secondary'>Loading...</div>";
+
+            try {
+                const response = await fetch("http://127.0.0.1:5001/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ input: question })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to get a response from the server.");
+                }
+
+                const data = await response.json();
+                responseDiv.innerHTML = `<div class="text-success">${data.response || data.error || "No response."}</div>`;
+            } catch (error) {
+                responseDiv.innerHTML = `<div class="text-danger">Error: ${error.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        #chat-container {
+            max-width: 600px;
+            margin: auto;
+        }
+        textarea, button {
+            width: 100%;
+            margin-top: 10px;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <h1>ChatBot</h1>
+        <form id="chat-form">
+            <label for="question">Ask a question:</label>
+            <textarea id="question" name="question" rows="3" placeholder="Type your question here..." required></textarea>
+            <button type="submit">Ask</button>
+        </form>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        document.getElementById("chat-form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const question = document.getElementById("question").value;
+            const responseDiv = document.getElementById("response");
+
+            responseDiv.innerHTML = "Loading...";
+
+            try {
+                const response = await fetch("http://127.0.0.1:5001/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ input: question })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to get a response from the server.");
+                }
+
+                const data = await response.json();
+                responseDiv.innerHTML = data.response || data.error || "No response.";
+            } catch (error) {
+                responseDiv.innerHTML = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
