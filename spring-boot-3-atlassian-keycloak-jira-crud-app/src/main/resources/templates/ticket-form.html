@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Jira Ticket Form</title>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+    <h1 th:text="${jiraTicket.ticket == null ? 'Add Ticket' : 'Edit Ticket'}"></h1>
+    <form th:action="@{/tickets}" th:object="${jiraTicket}" method="post" class="needs-validation" novalidate>
+        <!-- Hidden input for ID -->
+        <input type="hidden" th:field="*{id}">
+        <div class="mb-3">
+            <label for="ticket" class="form-label">Ticket Number</label>
+            <input type="text" class="form-control" id="ticket" th:field="*{ticket}" required>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" th:field="*{status}">
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+                <option value="Pending">Pending</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Reopened">Reopened</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Duplicate">Duplicate</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Blocked">Blocked</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <textarea class="form-control" id="title" th:field="*{title}" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="classification" class="form-label">Classification</label>
+            <select class="form-select" id="classification" th:field="*{classification}">
+                <option value="Wasn't an Issue">Wasn't an Issue</option>
+                <option value="Code Fix">Code Fix</option>
+                <option value="Insecure Requirement Rejected">Insecure Requirement Rejected</option>
+                <option value="Misunderstanding Led to Issue">Misunderstanding Led to Issue</option>
+                <option value="Performance Optimization">Performance Optimization</option>
+                <option value="??">??</option>
+                <option value="Config Related">Config Related</option>
+                <option value="UI">UI</option>
+                <option value="Pilot Customer">Pilot Customer</option>
+                <option value="Misplaced UI">Misplaced UI</option>
+                <option value="Small Backend Config Fix">Small Backend Config Fix</option>
+                <option value="UI Fix was not in KeyCloak">UI Fix was not in KeyCloak</option>
+                <option value="Duplicate">Duplicate</option>
+                <option value="Alternative Available. Role Restrictes Related Issue.">Alternative Available. Role Restrictes Related Issue.</option>
+                <option value="Backend Config Fix. Not Code">Backend Config Fix. Not Code</option>
+                <option value="Service / Customer Error">Service / Customer Error</option>
+                <option value="Organization Component Fix.">Organization Component Fix.</option>
+                <option value="Prior Miscommunication.">Prior Miscommunication.</option>
+                <option value="Enhancement">Enhancement</option>
+                <option value="PSO Driven Bug">PSO Driven Bug</option>
+                <option value="Documentation">Documentation</option>
+                <option value="Partner Education">Partner Education</option>
+                <option value="Analysis Pending">Analysis Pending</option>
+                <option value="Parity Enhancement">Parity Enhancement</option>
+                <option value="Code Enhancement">Code Enhancement</option>
+                <option value="Significant Miscommunication">Significant Miscommunication</option>
+                <option value="Customer Error">Customer Error</option>
+                <option value="Open for Investigation">Open for Investigation</option>
+                <option value="Services Did not Communicate">Services Did not Communicate</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="dateCreated" class="form-label">Date Created</label>
+            <input type="date" class="form-control" id="dateCreated" th:field="*{dateCreated}">
+        </div>
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priority</label>
+            <select class="form-select" id="priority" th:field="*{priority}">
+                <option value="1">1 - Blocking</option>
+                <option value="2">2 - High</option>
+                <option value="3">3 - Medium</option>
+                <option value="4">4 - Low</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="remarks" class="form-label">Remarks</label>
+            <textarea class="form-control" id="remarks" th:field="*{remarks}" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a class="btn btn-secondary" th:href="@{/tickets}">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

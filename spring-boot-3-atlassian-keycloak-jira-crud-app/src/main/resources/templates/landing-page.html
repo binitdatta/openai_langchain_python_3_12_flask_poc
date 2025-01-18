@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ticket Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://source.unsplash.com/1600x900/?technology,abstract') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+        }
+        .jumbotron {
+            background-color: rgba(0, 0, 0, 0.6); /* Transparent black background */
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .card {
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+        }
+        .card img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <!-- Welcome Section -->
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Welcome to the Ticket Management System</h1>
+        <p class="lead">Manage your tickets effectively with our powerful platform.</p>
+        <hr class="my-4">
+        <p>Start by viewing, adding, or querying tickets.</p>
+        <a class="btn btn-primary btn-lg" th:href="@{/tickets}" role="button">View Tickets</a>
+    </div>
+
+    <!-- Feature Cards Section -->
+    <div class="row mt-5">
+        <!-- Feature 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://source.unsplash.com/400x300/?analytics" class="card-img-top" alt="Analytics">
+                <div class="card-body">
+                    <h5 class="card-title">Comprehensive Analytics</h5>
+                    <p class="card-text">Get insights into your ticket resolution trends and improve efficiency.</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <!-- Feature 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://source.unsplash.com/400x300/?collaboration" class="card-img-top" alt="Collaboration">
+                <div class="card-body">
+                    <h5 class="card-title">Seamless Collaboration</h5>
+                    <p class="card-text">Collaborate with your team to resolve issues faster and smarter.</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <!-- Feature 3 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://source.unsplash.com/400x300/?workflow" class="card-img-top" alt="Workflow">
+                <div class="card-body">
+                    <h5 class="card-title">Optimized Workflows</h5>
+                    <p class="card-text">Streamline your ticket management process for maximum productivity.</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Why Choose Us?</h5>
+                    <p class="card-text">
+                        Our Ticket Management System is designed to help you stay organized and efficient. From tracking ticket status to generating insightful reports, we've got you covered.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Key Features</h5>
+                    <ul>
+                        <li>Intuitive User Interface</li>
+                        <li>Powerful Querying Capabilities</li>
+                        <li>Real-time Notifications</li>
+                        <li>Customizable Workflows</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
